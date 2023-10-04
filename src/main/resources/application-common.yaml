@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+client:
+  urls:
+    product-service: http://localhost:8888/v1/internal

@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create order details table
+      author: Turgud Guliyev
+      changes:
+        - createTable:
+            tableName: order_details
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_orders_to_order_details
+                    deleteCascade: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_amount
+                  type: numeric
+                  constraints:
+                    nullable: false

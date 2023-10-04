@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create orders addresses table
+      author: Turgud Guliyev
+      changes:
+        - createTable:
+            tableName: order_addresses
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_orders_to_order_addresses
+                    deleteCascade: true
+              - column:
+                  name: city
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: district
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address_detail
+                  type: varchar
+                  constraints:
+                    nullable: false
