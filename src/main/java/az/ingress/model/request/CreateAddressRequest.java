@@ -16,5 +16,5 @@ import static lombok.AccessLevel.PRIVATE;
 public class CreateAddressRequest {
     String city;
     String district;
-    String addressDetail;
+    String detail;
 }

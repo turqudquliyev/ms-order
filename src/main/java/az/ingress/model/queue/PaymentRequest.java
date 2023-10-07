@@ -1,12 +1,10 @@
-package az.ingress.model.response;
+package az.ingress.model.queue;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.math.BigDecimal;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -15,8 +13,6 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @Data
 @FieldDefaults(level = PRIVATE)
-public class OrderDetailResponse {
-    Long productId;
-    Integer quantity;
-    BigDecimal totalAmount;
+public class PaymentRequest {
+    Long orderId;
 }

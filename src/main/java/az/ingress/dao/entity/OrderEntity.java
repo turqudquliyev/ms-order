@@ -6,9 +6,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
-import static az.ingress.dao.entity.OrderEntity.TABLE_NAME;
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -16,7 +16,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = TABLE_NAME)
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,21 +25,19 @@ import static lombok.AccessLevel.PRIVATE;
 @ToString
 @FieldDefaults(level = PRIVATE)
 public class OrderEntity {
-    final static String TABLE_NAME = "orders";
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Long id;
     Long userId;
     @Enumerated(STRING)
     OrderStatus status;
+    Long productId;
+    Integer quantity;
+    BigDecimal totalAmount;
 
     @OneToOne(cascade = ALL, fetch = LAZY, mappedBy = "order")
     @ToString.Exclude
-    OrderDetailEntity orderDetail;
-
-    @OneToOne(cascade = ALL, fetch = LAZY, mappedBy = "order")
-    @ToString.Exclude
-    OrderAddressEntity address;
+    AddressEntity address;
 
     @Override
     public final boolean equals(Object o) {

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor
@@ -18,6 +20,8 @@ public class OrderResponse {
     Long id;
     Long userId;
     OrderStatus status;
-    OrderDetailResponse detail;
+    Long productId;
+    Integer quantity;
+    BigDecimal totalAmount;
     AddressResponse address;
 }

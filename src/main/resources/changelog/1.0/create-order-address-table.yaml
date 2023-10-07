@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create orders addresses table
+      id: create addresses table
       author: Turgud Guliyev
       changes:
         - createTable:
-            tableName: order_addresses
+            tableName: addresses
             columns:
               - column:
                   name: id
@@ -13,20 +13,20 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_orders_to_order_addresses
+                    foreignKeyName: fk_orders_to_addresses
                     deleteCascade: true
               - column:
                   name: city
-                  type: varchar
+                  type: text
                   constraints:
                     nullable: false
               - column:
                   name: district
-                  type: varchar
+                  type: text
                   constraints:
                     nullable: false
               - column:
-                  name: address_detail
-                  type: varchar
+                  name: detail
+                  type: text
                   constraints:
                     nullable: false

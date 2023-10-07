@@ -14,6 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Data
 @FieldDefaults(level = PRIVATE)
 public class CreateOrderRequest {
-    CreateItemRequest item;
+    Long productId;
+    Integer quantity;
     CreateAddressRequest address;
 }

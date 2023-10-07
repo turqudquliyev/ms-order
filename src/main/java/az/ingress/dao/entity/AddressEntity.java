@@ -8,13 +8,12 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
-import static az.ingress.dao.entity.OrderAddressEntity.TABLE_NAME;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
-@Table(name = TABLE_NAME)
+@Table(name = "addresses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,14 +21,13 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @ToString
 @FieldDefaults(level = PRIVATE)
-public class OrderAddressEntity {
-    final static String TABLE_NAME = "order_addresses";
+public class AddressEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Long id;
     String city;
     String district;
-    String addressDetail;
+    String detail;
 
     @OneToOne(fetch = LAZY)
     @MapsId
@@ -45,7 +43,7 @@ public class OrderAddressEntity {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        OrderAddressEntity that = (OrderAddressEntity) o;
+        AddressEntity that = (AddressEntity) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
