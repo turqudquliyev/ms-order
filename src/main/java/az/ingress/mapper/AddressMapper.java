@@ -1,21 +1,21 @@
 package az.ingress.mapper;
 
 import az.ingress.dao.entity.AddressEntity;
-import az.ingress.model.request.CreateAddressRequest;
+import az.ingress.model.request.AddressRequest;
 import az.ingress.model.response.AddressResponse;
 
 public enum AddressMapper {
     ADDRESS_MAPPER;
 
-    public AddressEntity buildAddressEntity(CreateAddressRequest createAddressRequest) {
+    public AddressEntity mapRequestToEntity(AddressRequest addressRequest) {
         return AddressEntity.builder()
-                .city(createAddressRequest.getCity())
-                .district(createAddressRequest.getDistrict())
-                .detail(createAddressRequest.getDetail())
+                .city(addressRequest.getCity())
+                .district(addressRequest.getDistrict())
+                .detail(addressRequest.getDetail())
                 .build();
     }
 
-    public AddressResponse buildAddressResponse(AddressEntity address) {
+    public AddressResponse mapEntityToResponse(AddressEntity address) {
         return AddressResponse.builder()
                 .city(address.getCity())
                 .district(address.getDistrict())
@@ -23,7 +23,7 @@ public enum AddressMapper {
                 .build();
     }
 
-    public AddressEntity mapAddressResponseToAddressEntity(AddressResponse addressResponse) {
+    public AddressEntity mapResponseToEntity(AddressResponse addressResponse) {
         return AddressEntity.builder()
                 .city(addressResponse.getCity())
                 .district(addressResponse.getDistrict())
