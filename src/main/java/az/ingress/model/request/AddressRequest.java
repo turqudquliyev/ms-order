@@ -13,7 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @Data
 @FieldDefaults(level = PRIVATE)
-public class CreateAddressRequest {
+public class AddressRequest {
     String city;
     String district;
     String detail;

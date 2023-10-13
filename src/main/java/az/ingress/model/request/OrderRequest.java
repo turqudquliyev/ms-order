@@ -1,5 +1,8 @@
 package az.ingress.model.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +16,14 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @Data
 @FieldDefaults(level = PRIVATE)
-public class CreateOrderRequest {
+public class OrderRequest {
+    @Valid
+    @NotNull(message = "productId not be null!")
+    @Min(1L)
     Long productId;
+    @NotNull(message = "quantity not be null!")
+    @Min(1)
     Integer quantity;
-    CreateAddressRequest address;
+    @NotNull(message = "address not be empty!")
+    AddressRequest address;
 }
