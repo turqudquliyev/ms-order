@@ -1,12 +1,11 @@
 package az.ingress.service.handler;
 
-import az.ingress.aop.annotation.Loggable;
 import az.ingress.client.ProductClient;
 import az.ingress.dao.entity.OrderEntity;
 import az.ingress.dao.repository.OrderRepository;
 import az.ingress.exception.NotFoundException;
 import az.ingress.model.client.ProductResponse;
-import az.ingress.model.request.CreateOrderRequest;
+import az.ingress.model.request.OrderRequest;
 import az.ingress.model.response.OrderResponse;
 import az.ingress.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import static az.ingress.mapper.OrderMapper.ORDER_MAPPER;
 import static az.ingress.mapper.ProductMapper.PRODUCT_MAPPER;
 import static az.ingress.model.enums.ExceptionMessage.ORDER_NOT_FOUND;
 import static az.ingress.model.enums.OrderStatus.CANCELLED;
+import static az.ingress.model.enums.OrderStatus.CREATED;
 import static lombok.AccessLevel.PRIVATE;
 
 @Service
@@ -29,56 +29,57 @@ public class OrderServiceHandler implements OrderService {
     OrderRepository orderRepository;
     ProductClient productClient;
 
-    @Loggable
-    public OrderResponse createOrder(Long userId, CreateOrderRequest createOrderRequest) {
-        var productRequest = PRODUCT_MAPPER.buildProductRequest(createOrderRequest);
+    public OrderResponse createOrder(Long userId, OrderRequest orderRequest) {
+        var productRequest = PRODUCT_MAPPER.buildProductRequest(orderRequest);
         var productResponse = productClient.calculateTotalAmount(productRequest);
-        var order = getOrderEntity(userId, createOrderRequest, productResponse);
+        var order = getOrderEntity(userId, orderRequest, productResponse);
         var savedOrder = orderRepository.save(order);
-        return ORDER_MAPPER.buildOrderResponse(savedOrder);
+        return ORDER_MAPPER.mapEntityToResponse(savedOrder);
     }
 
-    @Loggable
     public List<OrderResponse> getOrderByIdIn(List<Long> orderIds) {
         return orderRepository
                 .findByIdIn(orderIds)
                 .stream()
-                .map(ORDER_MAPPER::buildOrderResponse)
+                .map(ORDER_MAPPER::mapEntityToResponse)
                 .toList();
     }
 
-    @Loggable
     public void cancelOrder(Long id) {
-        OrderEntity order = fetchIfExist(id);
+        var order = fetchIfExist(id);
         order.setStatus(CANCELLED);
         orderRepository.save(order);
     }
 
-    @Loggable
     public OrderResponse getOrderById(Long id) {
-        OrderEntity order = fetchIfExist(id);
-        return ORDER_MAPPER.buildOrderResponse(order);
+        var order = fetchIfExist(id);
+        return ORDER_MAPPER.mapEntityToResponse(order);
     }
 
-    @Loggable
     public OrderEntity save(OrderEntity order) {
         return orderRepository.save(order);
     }
 
-    @Loggable
-    private static OrderEntity getOrderEntity(Long userId,
-                                              CreateOrderRequest createOrderRequest,
-                                              ProductResponse productResponse) {
-        var address = ADDRESS_MAPPER.buildAddressEntity(createOrderRequest.getAddress());
-        var order = ORDER_MAPPER.buildOrderEntity(userId, createOrderRequest, address, productResponse);
-        address.setOrder(order);
-        return order;
-    }
 
-    @Loggable
     private OrderEntity fetchIfExist(Long id) {
         return orderRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException(ORDER_NOT_FOUND));
+    }
+
+    private OrderEntity getOrderEntity(Long userId,
+                                       OrderRequest orderRequest,
+                                       ProductResponse productResponse) {
+        var address = ADDRESS_MAPPER.mapRequestToEntity(orderRequest.getAddress());
+        var order = OrderEntity.builder()
+                .userId(userId)
+                .status(CREATED)
+                .productId(orderRequest.getProductId())
+                .quantity(orderRequest.getQuantity())
+                .totalAmount(productResponse.getTotalAmount())
+                .address(address)
+                .build();
+        address.setOrder(order);
+        return order;
     }
 }
