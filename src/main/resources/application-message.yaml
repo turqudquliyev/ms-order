@@ -1,0 +1,20 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 10s
+          max-attempts: 5
+          max-interval: 15s
+          multipler: 1
+        missing-queues-fatal: false
+
+rabbitmq:
+  payment:
+    queue: PAYMENT_Q
+    dlq: PAYMENT_DLQ
