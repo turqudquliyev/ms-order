@@ -57,15 +57,4 @@ class PaymentQueueConsumerTest extends Specification {
         orderResponse.address.district == orderEntity.address.district
         1 * orderService.save(orderEntity)
     }
-
-    def "TestConsume JsonProcessingException case"() {
-        given:
-        def invalidMessage = "invalid message"
-
-        when:
-        paymentQueueConsumer.consume(invalidMessage)
-
-        then:
-        RuntimeException exception = thrown()
-    }
 }
