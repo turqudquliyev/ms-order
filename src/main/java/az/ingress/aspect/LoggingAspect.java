@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggingAspect {
-    @Around("execution(* az.ingress.service.handler.*.*(..))")
+    @Around("execution(* az.ingress.service.concrete.*.*(..))")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         var methodName = joinPoint.getSignature().getName();
         var params = joinPoint.getArgs();

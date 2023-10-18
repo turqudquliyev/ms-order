@@ -1,13 +1,14 @@
-package az.ingress.service.handler;
+package az.ingress.service.concrete;
 
 import az.ingress.client.ProductClient;
 import az.ingress.dao.entity.OrderEntity;
 import az.ingress.dao.repository.OrderRepository;
 import az.ingress.exception.NotFoundException;
 import az.ingress.model.client.ProductResponse;
+import az.ingress.model.enums.OrderStatus;
 import az.ingress.model.request.OrderRequest;
 import az.ingress.model.response.OrderResponse;
-import az.ingress.service.OrderService;
+import az.ingress.service.abstraction.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import static az.ingress.mapper.OrderMapper.ORDER_MAPPER;
 import static az.ingress.mapper.ProductMapper.PRODUCT_MAPPER;
 import static az.ingress.model.enums.ExceptionMessage.ORDER_NOT_FOUND;
 import static az.ingress.model.enums.OrderStatus.CANCELLED;
-import static az.ingress.model.enums.OrderStatus.CREATED;
 import static lombok.AccessLevel.PRIVATE;
 
 @Service
@@ -35,6 +35,12 @@ public class OrderServiceHandler implements OrderService {
         var order = getOrderEntity(userId, orderRequest, productResponse);
         var savedOrder = orderRepository.save(order);
         return ORDER_MAPPER.mapEntityToResponse(savedOrder);
+    }
+
+    public void updateOrderStatus(Long id, OrderStatus status) {
+        OrderEntity order = fetchIfExist(id);
+        order.setStatus(status);
+        orderRepository.save(order);
     }
 
     public List<OrderResponse> getOrderByIdIn(List<Long> orderIds) {
@@ -71,14 +77,7 @@ public class OrderServiceHandler implements OrderService {
                                        OrderRequest orderRequest,
                                        ProductResponse productResponse) {
         var address = ADDRESS_MAPPER.mapRequestToEntity(orderRequest.getAddress());
-        var order = OrderEntity.builder()
-                .userId(userId)
-                .status(CREATED)
-                .productId(orderRequest.getProductId())
-                .quantity(orderRequest.getQuantity())
-                .totalAmount(productResponse.getTotalAmount())
-                .address(address)
-                .build();
+        var order = ORDER_MAPPER.buildOrderEntity(userId, orderRequest, address, productResponse.getTotalAmount());
         address.setOrder(order);
         return order;
     }
