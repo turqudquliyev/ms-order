@@ -1,7 +1,6 @@
 package az.ingress.exception;
 
 
-import az.ingress.model.enums.ExceptionMessage;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -12,8 +11,8 @@ import static lombok.AccessLevel.PRIVATE;
 public class CustomFeignException extends RuntimeException {
     Integer statusCode;
 
-    public CustomFeignException(ExceptionMessage message, Integer statusCode) {
-        super(message.toString());
+    public CustomFeignException(String message, Integer statusCode) {
+        super(message);
         this.statusCode = statusCode;
     }
 }
