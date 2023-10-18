@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handle(UnexpectedException ex) {
+    public ExceptionResponse handle(Exception ex) {
         log.error("UnexpectedException: ", ex);
         return ExceptionResponse.builder()
                 .code(UNEXPECTED_EXCEPTION.toString())
