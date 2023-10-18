@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Profile("!local")
-@FeignClient(name = "product-service",
-        url = "${client.urls.product-service}",
+@FeignClient(name = "ms-product",
+        url = "${client.urls.ms-product}",
         configuration = CustomErrorDecoder.class
 )
 public interface ProductClient {
