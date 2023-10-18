@@ -2,7 +2,7 @@ package az.ingress.controller;
 
 import az.ingress.model.request.OrderRequest;
 import az.ingress.model.response.OrderResponse;
-import az.ingress.service.OrderService;
+import az.ingress.service.abstraction.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

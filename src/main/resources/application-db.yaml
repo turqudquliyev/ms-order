@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    default-property-inclusion: non_null
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
@@ -12,5 +14,4 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
-    enabled: true
     change-log: classpath:changelog/db.changelog-master.yaml

@@ -39,6 +39,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jaksonDataBindVersion}"
     testImplementation "org.apache.groovy:groovy:${groovyVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
     testImplementation "io.github.benas:random-beans:${enhanceRandom}"

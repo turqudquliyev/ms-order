@@ -15,5 +15,6 @@ spring:
         missing-queues-fatal: false
 
 rabbitmq:
-  queue:
-    payment: PAYMENT_QUEUE
+  payment:
+    queue: PAYMENT_Q
+    dlq: PAYMENT_DLQ

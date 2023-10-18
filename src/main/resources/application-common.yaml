@@ -3,4 +3,4 @@ server:
 
 client:
   urls:
-    product-service: http://localhost:8888/internal/v1/products
+    ms-product: http://localhost:8888/internal/v1/products

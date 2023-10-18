@@ -1,12 +1,31 @@
 package az.ingress.mapper;
 
+import az.ingress.dao.entity.AddressEntity;
 import az.ingress.dao.entity.OrderEntity;
+import az.ingress.model.request.OrderRequest;
 import az.ingress.model.response.OrderResponse;
 
+import java.math.BigDecimal;
+
 import static az.ingress.mapper.AddressMapper.ADDRESS_MAPPER;
+import static az.ingress.model.enums.OrderStatus.CREATED;
 
 public enum OrderMapper {
     ORDER_MAPPER;
+
+    public OrderEntity buildOrderEntity(Long userId,
+                                        OrderRequest orderRequest,
+                                        AddressEntity address,
+                                        BigDecimal total) {
+        return OrderEntity.builder()
+                .userId(userId)
+                .status(CREATED)
+                .productId(orderRequest.getProductId())
+                .quantity(orderRequest.getQuantity())
+                .totalAmount(total)
+                .address(address)
+                .build();
+    }
 
     public OrderResponse mapEntityToResponse(OrderEntity order) {
         return OrderResponse.builder()
