@@ -7,8 +7,8 @@ import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 
 import static az.ingress.mapper.ObjectMapperFactory.OBJECT_MAPPER;
+import static az.ingress.model.constant.JsonNodeFieldName.CODE;
 import static az.ingress.model.enums.ExceptionMessage.CLIENT_EXCEPTION;
-import static az.ingress.model.enums.JsonNodeFieldName.CODE;
 
 @Slf4j
 public class CustomErrorDecoder implements ErrorDecoder {
@@ -22,7 +22,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
         } catch (Exception e) {
             throw new CustomFeignException(errorMessage, status);
         }
-        if (jsonNode.has(CODE.getValue())) errorMessage = jsonNode.get(CODE.getValue()).asText();
+        if (jsonNode.has(CODE)) errorMessage = jsonNode.get(CODE).asText();
         log.error("ActionLog.decode.error Message: {}, Method: {} ", errorMessage, methodKey);
         throw new CustomFeignException(errorMessage, status);
     }
