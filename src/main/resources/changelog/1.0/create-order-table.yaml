@@ -21,7 +21,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: varchar
+                  type: varchar(20)
                   constraints:
                     nullable: false
               - column:
