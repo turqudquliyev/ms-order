@@ -5,8 +5,8 @@ import az.ingress.dao.entity.OrderEntity
 import az.ingress.model.queue.PaymentRequest
 import az.ingress.model.response.AddressResponse
 import az.ingress.model.response.OrderResponse
-import az.ingress.queue.handler.PaymentQueueConsumer
-import az.ingress.service.OrderService
+import az.ingress.queue.concrete.PaymentQueueConsumer
+import az.ingress.service.abstraction.OrderService
 import spock.lang.Specification
 
 import static az.ingress.model.enums.OrderStatus.CREATED

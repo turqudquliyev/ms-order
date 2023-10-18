@@ -3,7 +3,7 @@ package az.ingress.controller
 import az.ingress.exception.GlobalExceptionHandler
 import az.ingress.model.response.AddressResponse
 import az.ingress.model.response.OrderResponse
-import az.ingress.service.OrderService
+import az.ingress.service.abstraction.OrderService
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders

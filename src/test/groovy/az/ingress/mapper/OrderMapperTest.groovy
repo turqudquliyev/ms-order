@@ -1,8 +1,9 @@
 package az.ingress.mapper
 
-
+import az.ingress.dao.entity.AddressEntity
 import az.ingress.dao.entity.OrderEntity
 import az.ingress.model.enums.OrderStatus
+import az.ingress.model.request.OrderRequest
 import az.ingress.model.response.OrderResponse
 import io.github.benas.randombeans.EnhancedRandomBuilder
 import io.github.benas.randombeans.api.EnhancedRandom
@@ -10,12 +11,34 @@ import io.github.benas.randombeans.randomizers.misc.EnumRandomizer
 import spock.lang.Specification
 
 import static az.ingress.mapper.OrderMapper.ORDER_MAPPER
+import static az.ingress.model.enums.OrderStatus.CREATED
 
 class OrderMapperTest extends Specification {
     EnhancedRandom random = EnhancedRandomBuilder
             .aNewEnhancedRandomBuilder()
             .randomize(OrderStatus.class, new EnumRandomizer<>(OrderStatus.class))
             .build()
+
+    def "TestBuildOrderEntity"() {
+        given:
+        def userId = random.nextLong()
+        def orderRequest = random.nextObject(OrderRequest)
+        def addressEntity = random.nextObject(AddressEntity)
+        def totalAmount = random.nextObject(BigDecimal)
+
+        when:
+        def orderEntity = ORDER_MAPPER.buildOrderEntity(userId, orderRequest, addressEntity, totalAmount)
+
+        then:
+        userId == orderEntity.userId
+        CREATED == orderEntity.status
+        orderRequest.productId == orderEntity.productId
+        orderRequest.quantity == orderEntity.quantity
+        totalAmount == orderEntity.totalAmount
+        addressEntity.city == orderEntity.address.city
+        addressEntity.district == orderEntity.address.district
+        addressEntity.detail == orderEntity.address.detail
+    }
 
     def "TestMapEntityToResponse"() {
         given:

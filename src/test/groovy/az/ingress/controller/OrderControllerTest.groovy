@@ -6,12 +6,13 @@ import az.ingress.model.request.AddressRequest
 import az.ingress.model.request.OrderRequest
 import az.ingress.model.response.AddressResponse
 import az.ingress.model.response.OrderResponse
-import az.ingress.service.OrderService
+import az.ingress.service.abstraction.OrderService
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
+import static az.ingress.model.constant.HeaderConstant.USER_ID
 import static java.math.BigDecimal.TEN
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NO_CONTENT
@@ -70,7 +71,7 @@ class OrderControllerTest extends Specification {
         def jsonResponse = mockMvc.perform(
                 post(url)
                         .contentType(APPLICATION_JSON)
-                        .header("User-Id", userId.toString())
+                        .header(USER_ID, userId.toString())
                         .content(jsonRequest)
         ).andReturn()
 
